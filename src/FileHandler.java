@@ -8,8 +8,7 @@ import java.util.ArrayList;
 public class FileHandler {
 
     private static ArrayList<Customer> customerList = new ArrayList<Customer>();
-    private static ArrayList<Room> roomList = new ArrayList<Room>();
-    private static ArrayList<Rent> rentList = new ArrayList<Rent>();
+
 
 
 
@@ -118,7 +117,7 @@ public class FileHandler {
      * This method saves the Take objects in the binary format to the file.
      */
     public static void saveRoomDataToFile()  {
-        File file = new File("C:\\Users\\Thiloshon\\IdeaProjects\\Hotel Program\\src\\Room.txt");
+        File file = new File("C:\\Users\\Thiloshon\\IdeaProjects\\Hotel Program\\src\\Data.txt");
 
         FileOutputStream fos = null;
         try {
@@ -158,7 +157,7 @@ public class FileHandler {
      * This method loads the take objects in the binary format from the file.
      */
     public static void LoadRoomDataFromFile()  {
-        File file = new File("C:\\Users\\Thiloshon\\IdeaProjects\\Hotel Program\\src\\Room.txt");
+        File file = new File("C:\\Users\\Thiloshon\\IdeaProjects\\Hotel Program\\src\\Data.txt");
         FileInputStream fis = null;
 
         try {

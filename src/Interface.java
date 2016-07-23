@@ -10,23 +10,27 @@ import java.util.Scanner;
 public class Interface {
 
     Scanner sc = new Scanner(System.in);
+    String [] names = new String[10];
+    String [] iD = new String[10];
 
 
     /**
      * The First output. Welcome page.
      */
-    public void welcomePage() {
+    public void run() {
 
 
         //loadData(); // First load of data
 
         System.out.println("");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("---------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM -------------------------");
+        System.out.println("---------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM -------------------------THE HOTEL PROGRAM");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("");
         System.out.println("                  WELCOME TO THE HOTEL PROGRAM");
         System.out.println("");
+
+        start();
 
     }
 
@@ -149,94 +153,22 @@ public class Interface {
      * Method to add new Student.
      */
     public void addNewCustomer() {
+
+        System.out.println("Room Number Please: ");
+        String roomNumber = sc.nextLine();
+
+        System.out.println("Customer Name Please: ");
+        String customerName = sc.nextLine();
+
         System.out.println("Customer ID Please: ");
-        String customerID = null;
-        customerID = sc.nextLine();
-       /* while (!sc.hasNextLine()) {
-            System.out.println("Integer Please");
-            customerID=sc.nextLine();
-        }*/
+        String customerID = sc.nextLine();
 
 
 
-        boolean customerCheck = true;
-        for (Customer st : FileHandler.getCustomerList()) {
-            if (customerID.equalsIgnoreCase(st.getiDNo())) {
-                customerCheck = false;
-            }
-        }
-
-        if (customerCheck) {
-            System.out.println("Name of the Customer: ");
-            //sc.nextLine();
-            String name = sc.nextLine();
-            /*System.out.println("ID of the Student: ");
-            String iD = sc.nextLine();*/
-
-            Customer stu = new Customer(name, customerID);
-
-            System.out.println("Customer " + name + " created successfully.");
-
-            FileHandler.getCustomerList().add(stu);
-            //System.out.println(FileHandler.getStudentsList());
-            System.out.println("Room No: ");
-            String roomID = sc.nextLine();
-
-            boolean roomCheck = true;
-            for (Room st : FileHandler.getRoomList()) {
-                if (roomID.equalsIgnoreCase(st.getRoomID())) {
-                    roomCheck=false;
-
-                }
-            }
-            if (roomCheck){
-                System.out.println("No Such Room, Creating one...");
-                Room room = new Room(roomID, "King");
-                FileHandler.getRoomList().add(room);
-            }
-
-            System.out.println("No of days staying:");
-            int days = sc.nextInt();
-
-            System.out.println("Amount paid: ");
-            int paid = sc.nextInt();
-
-            Rent rent = new Rent(customerID, roomID, days, paid, 0);
-            FileHandler.getRentList().add(rent);
 
 
-            start();
-
-            //saveData();
-        } else {
-            System.out.println("Room No: ");
-            String roomID = sc.nextLine();
-
-            boolean roomCheck = true;
-            for (Room st : FileHandler.getRoomList()) {
-                if (roomID.equalsIgnoreCase(st.getRoomID())) {
-                    roomCheck=false;
-
-                }
-            }
-            if (roomCheck){
-                System.out.println("No Such Room, Creating one...");
-                Room room = new Room(roomID, "King");
-                FileHandler.getRoomList().add(room);
-            }
-
-            System.out.println("No of days staying:");
-            int days = sc.nextInt();
-
-            System.out.println("Amount paid: ");
-            int paid = sc.nextInt();
-
-            Rent rent = new Rent(customerID, roomID, days, paid, 0);
-            FileHandler.getRentList().add(rent);
 
 
-            start();
-        }
     }
 
 
