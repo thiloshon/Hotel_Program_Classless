@@ -1,9 +1,10 @@
-import java.util.ConcurrentModificationException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
  * Created by Thiloshon on 25-Apr-16.
- * Base Template copied from SDP 1 CW 2.
+ * Base Template from SDP 1 CW 2.
+ * Later altered as to exclude Object Oriented Concepts.
  * This Class Deals with all the Interface Inputs and Interface Outputs.
  * Methods: welcomePage, start, modules, viewModules, addNewModules
  */
@@ -21,10 +22,11 @@ public class Interface {
 
 
         //loadData(); // First load of data
+        loadData();
 
         System.out.println("");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("---------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM -------------------------THE HOTEL PROGRAM");
+        System.out.println("---------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM ---------------------- THE HOTEL PROGRAM ------------------------- THE HOTEL PROGRAM --------------");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("");
         System.out.println("                  WELCOME TO THE HOTEL PROGRAM");
@@ -45,6 +47,7 @@ public class Interface {
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("A Add New Customer To A Room");
         System.out.println("V View All Rooms");
+        System.out.println("E View Empty Rooms");
         System.out.println("D Delete Customer From Room");
         System.out.println("F Find Room From Customer Name");
         System.out.println("S Store Program Array Data Into A Plain Text File");
@@ -60,11 +63,12 @@ public class Interface {
                 sc.next();
             }
             option = sc.nextLine();
+            option=option.toUpperCase();
 
-            if (!(option.equalsIgnoreCase("A") || option.equalsIgnoreCase("V") ||option.equalsIgnoreCase("D") ||option.equalsIgnoreCase("F") ||option.equalsIgnoreCase("S") ||option.equalsIgnoreCase("L") ||option.equalsIgnoreCase("O") )) {
+            if (!(option.equalsIgnoreCase("A") || option.equalsIgnoreCase("V") ||option.equalsIgnoreCase("E") ||option.equalsIgnoreCase("D") ||option.equalsIgnoreCase("F") ||option.equalsIgnoreCase("S") ||option.equalsIgnoreCase("L") ||option.equalsIgnoreCase("O") )) {
                 System.out.println("Please Choose Your Option Among The Letters Given Above:");
             }
-        } while (!(option.equalsIgnoreCase("A") || option.equalsIgnoreCase("V") ||option.equalsIgnoreCase("D") ||option.equalsIgnoreCase("F") ||option.equalsIgnoreCase("S") ||option.equalsIgnoreCase("L") ||option.equalsIgnoreCase("O") ));
+        } while (!(option.equalsIgnoreCase("A") || option.equalsIgnoreCase("V") ||option.equalsIgnoreCase("E") ||option.equalsIgnoreCase("D") ||option.equalsIgnoreCase("F") ||option.equalsIgnoreCase("S") ||option.equalsIgnoreCase("L") ||option.equalsIgnoreCase("O") ));
 
 
         switch (option) {
@@ -89,26 +93,7 @@ public class Interface {
             case "L":
                 loadData();
                 break;
-            case "a":
-                addNewCustomer();
-                break;
-            case "v":
-                viewRooms();
-                break;
-            case "e":
-                displayEmptyRooms();
-                break;
-            case "d":
-                deleteCustomer();
-                break;
-            case "f":
-                findRoomFromName();
-                break;
-            case "s":
-                saveData();
-                break;
-            case "l":
-                loadData();
+
 
         }
     }
@@ -124,22 +109,13 @@ public class Interface {
         System.out.println("Customer name Please: ");
         String name= sc.nextLine();
 
-        String id =null;
-        for(Customer cus : FileHandler.getCustomerList()){
-            if (cus.getName().equalsIgnoreCase(name)){
-                id=cus.getiDNo();
+        for (int x=0; x<names.length; x++){
+            if (names[x].equalsIgnoreCase(name)){
+                System.out.println("The Room is " + (x+1) );
             }
         }
 
-        if (id==null){
-            System.out.println("No such Customer");
-        }else {
-            for(Rent rt : FileHandler.getRentList()){
-               if (rt.getCustomerID().equalsIgnoreCase(id)){
-                   System.out.print(rt.getRoomID());
-               }
-            }
-        }
+
 
         start();
 
@@ -163,6 +139,13 @@ public class Interface {
         System.out.println("Customer ID Please: ");
         String customerID = sc.nextLine();
 
+        names[ Integer.parseInt(roomNumber)-1]= customerName;
+        iD[ Integer.parseInt(roomNumber)-1]= customerID;
+
+        System.out.println(customerName + " of ID " + customerID+ " was added to room " + roomNumber);
+
+        start();
+
 
 
 
@@ -176,16 +159,16 @@ public class Interface {
      * This method adds marks of the students.
      */
     public void viewRooms(){
-        for (Room rm : FileHandler.getRoomList()){
-            System.out.print(rm.getRoomID());
-            for (Rent rent : FileHandler.getRentList()){
-                if (rent.getRoomID().equalsIgnoreCase(rm.getRoomID())){
-                    System.out.println(" Occupied by " + rent.getCustomerID());
-                    break;
-                }
+
+        for (int x=0; x<names.length; x++){
+            if (names[x]==null||names[x].equalsIgnoreCase("empty")||names[x].equalsIgnoreCase("null")){
+                System.out.println("The Room " + (x+1) + " is Empty");
+            }else {
+                System.out.println("The Room " + (x+1) + " is Rented to " + names[x] + " of ID " + iD[x]);
             }
-            System.out.println("");
         }
+
+        System.out.println("End of Record");
 
         start();
 
@@ -196,22 +179,11 @@ public class Interface {
      * This method gives the award of the student queried.
      */
     public void deleteCustomer() {
-        System.out.println("Enter Customer ID: ");
-        String cusID = sc.nextLine();
+        System.out.println("Enter Room ID: ");
+        String roomID = sc.nextLine();
 
-        try{
-            for(Rent rt : FileHandler.getRentList()){
-                if(rt.getCustomerID().equalsIgnoreCase(cusID)){
-                    System.out.println("The Room is " + rt.getRoomID());
-                    FileHandler.getRentList().remove(rt);
-                    System.out.println("Rent Deleted!");
-                }else {
-                    System.out.println("No Such Rental!");
-                }
-            }
-        }catch (ConcurrentModificationException e){
-
-        }
+        names[Integer.parseInt(roomID)]="Empty";
+        System.out.println("Customer Deleted ");
 
         start();
 
@@ -222,21 +194,17 @@ public class Interface {
      * The method prints all the students enrolled.
      */
     public void displayEmptyRooms() {
-        for (Room rm : FileHandler.getRoomList()){
-            //System.out.print(rm.getRoomID());
-            boolean isFree=true;
-            for (Rent rent : FileHandler.getRentList()){
-                if (rent.getRoomID().equalsIgnoreCase(rm.getRoomID())){
-                    System.out.println("Occupied by " + rent.getCustomerID());
-                    isFree=false;
-                    break;
-                }
-            }
-            if(isFree){
-                System.out.println(rm.getRoomID());
-            }
 
+
+        for (int x=0; x<names.length; x++){
+            if (names[x]==null||names[x].equalsIgnoreCase("empty")||names[x].equalsIgnoreCase("null")){
+                System.out.println("The Room " + (x+1) + " is Empty");
+            }
         }
+
+        System.out.println("End of Record");
+
+        start();
 
     }
 
@@ -246,9 +214,33 @@ public class Interface {
      */
     public void loadData() {
 
-        FileHandler.LoadCustomerDataFromFile();
-        FileHandler.LoadRentDataFromFile();
-        FileHandler.LoadRoomDataFromFile();
+        File file = new File("Data.txt");
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            int x=0;
+            while((line=br.readLine())!= null){
+
+
+
+                String [] array = line.split("\\t");
+                /*for(String st :array){
+                    System.out.println(st);
+                }*/
+
+                names[x]=array[1];
+                iD[x]=array[2];
+
+                x++;
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Data Loading Terminated");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Data Loading Terminated");
+        }
         System.out.println("Data Loaded Successfully");
         start();
 
@@ -262,9 +254,28 @@ public class Interface {
      * This method saves all the data to file.
      */
     public void saveData() {
-        FileHandler.saveCustomerDataToFile();
-        FileHandler.saveRentDataToFile();
-        FileHandler.saveRoomDataToFile();
+
+
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("Data.txt", "UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("File Doesn't Exist");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        for  (int x =0; x<names.length; x++){
+            writer.print(x + ") \t");
+            writer.print(names[x]);
+            writer.print("\t" + iD[x]);
+            writer.println("");
+        }
+
+        writer.flush();
+        writer.close();
+
 
         System.out.println("Data Saved Successfully");
 
