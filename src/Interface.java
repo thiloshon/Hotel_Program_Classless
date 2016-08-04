@@ -6,13 +6,15 @@ import java.util.Scanner;
  * Base Template from SDP 1 CW 2.
  * Later altered as to exclude Object Oriented Concepts.
  * This Class Deals with all the Interface Inputs and Interface Outputs.
- * Methods: welcomePage, start, modules, viewModules, addNewModules
+ * Methods: Run, Start, Add procedure, View procedure, Display Empty rooms, Delete customer from room, Find room from
+ *          Customer name, Store program array data into a plain text file, Load program data back,
+ *          from the file into the array, View rooms Ordered alphabetically by name.
  */
 public class Interface {
 
     Scanner sc = new Scanner(System.in);
-    String [] names = new String[10];
-    String [] iD = new String[10];
+    String[] names = new String[10];
+    String[] iD = new String[10];
 
 
     /**
@@ -22,7 +24,7 @@ public class Interface {
 
 
         //loadData(); // First load of data
-        loadData();
+
 
         System.out.println("");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -63,12 +65,15 @@ public class Interface {
                 sc.next();
             }
             option = sc.nextLine();
-            option=option.toUpperCase();
+            option = option.toUpperCase();
 
-            if (!(option.equalsIgnoreCase("A") || option.equalsIgnoreCase("V") ||option.equalsIgnoreCase("E") ||option.equalsIgnoreCase("D") ||option.equalsIgnoreCase("F") ||option.equalsIgnoreCase("S") ||option.equalsIgnoreCase("L") ||option.equalsIgnoreCase("O") )) {
+            if (!(option.equals("A")|| option.equals("V") || option.equals("E") || option.equals("D") || option.equals("F")
+                    || option.equals("S") || option.equals("L") || option.equals("O"))) {
                 System.out.println("Please Choose Your Option Among The Letters Given Above:");
             }
-        } while (!(option.equalsIgnoreCase("A") || option.equalsIgnoreCase("V") ||option.equalsIgnoreCase("E") ||option.equalsIgnoreCase("D") ||option.equalsIgnoreCase("F") ||option.equalsIgnoreCase("S") ||option.equalsIgnoreCase("L") ||option.equalsIgnoreCase("O") ));
+        }
+        while (!(option.equals("A") || option.equals("V") || option.equals("E") || option.equals("D")
+                || option.equals("F") || option.equals("S") || option.equals("L") || option.equals("O")));
 
 
         switch (option) {
@@ -93,40 +98,16 @@ public class Interface {
             case "L":
                 loadData();
                 break;
+            case "O":
+                sortData();
+                break;
 
 
         }
     }
 
-
-
-
-
     /**
-     * The Modules Menu. Has all the required functions of modules.
-     */
-    public void findRoomFromName() {
-        System.out.println("Customer name Please: ");
-        String name= sc.nextLine();
-
-        for (int x=0; x<names.length; x++){
-            if (names[x].equalsIgnoreCase(name)){
-                System.out.println("The Room is " + (x+1) );
-            }
-        }
-
-
-
-        start();
-
-    }
-
-
-
-
-
-    /**
-     * Method to add new Student.
+     * Method to add new Customer.
      */
     public void addNewCustomer() {
 
@@ -139,32 +120,26 @@ public class Interface {
         System.out.println("Customer ID Please: ");
         String customerID = sc.nextLine();
 
-        names[ Integer.parseInt(roomNumber)-1]= customerName;
-        iD[ Integer.parseInt(roomNumber)-1]= customerID;
+        names[Integer.parseInt(roomNumber) - 1] = customerName;
+        iD[Integer.parseInt(roomNumber) - 1] = customerID;
 
-        System.out.println(customerName + " of ID " + customerID+ " was added to room " + roomNumber);
+        System.out.println(customerName + " of ID " + customerID + " was added to room " + roomNumber);
 
         start();
 
 
-
-
-
-
-
     }
 
-
     /**
-     * This method adds marks of the students.
+     * This method views details of all Rooms.
      */
-    public void viewRooms(){
+    public void viewRooms() {
 
-        for (int x=0; x<names.length; x++){
-            if (names[x]==null||names[x].equalsIgnoreCase("empty")||names[x].equalsIgnoreCase("null")){
-                System.out.println("The Room " + (x+1) + " is Empty");
-            }else {
-                System.out.println("The Room " + (x+1) + " is Rented to " + names[x] + " of ID " + iD[x]);
+        for (int x = 0; x < names.length; x++) {
+            if (names[x] == null || names[x].equalsIgnoreCase("empty") || names[x].equalsIgnoreCase("null")) {
+                System.out.println("The Room " + (x + 1) + " is Empty");
+            } else {
+                System.out.println("The Room " + (x + 1) + " is Rented to " + names[x] + " of ID " + iD[x]);
             }
         }
 
@@ -174,35 +149,51 @@ public class Interface {
 
     }
 
+    /**
+     * The method prints all the empty rooms.
+     */
+    public void displayEmptyRooms() {
+
+
+        for (int x = 0; x < names.length; x++) {
+            if (names[x] == null || names[x].equalsIgnoreCase("empty") || names[x].equalsIgnoreCase("null")) {
+                System.out.println("The Room " + (x + 1) + " is Empty");
+            }
+        }
+
+        System.out.println("End of Record");
+
+        start();
+
+    }
 
     /**
-     * This method gives the award of the student queried.
+     * This method deletes the customer from room.
      */
     public void deleteCustomer() {
         System.out.println("Enter Room ID: ");
         String roomID = sc.nextLine();
 
-        names[Integer.parseInt(roomID)]="Empty";
+        names[Integer.parseInt(roomID)] = "Empty";
         System.out.println("Customer Deleted ");
 
         start();
 
     }
 
-
     /**
-     * The method prints all the students enrolled.
+     * This method prints room number corresponding to the customer name.
      */
-    public void displayEmptyRooms() {
+    public void findRoomFromName() {
+        System.out.println("Customer name Please: ");
+        String name = sc.nextLine();
 
-
-        for (int x=0; x<names.length; x++){
-            if (names[x]==null||names[x].equalsIgnoreCase("empty")||names[x].equalsIgnoreCase("null")){
-                System.out.println("The Room " + (x+1) + " is Empty");
+        for (int x = 0; x < names.length; x++) {
+            if (names[x].equalsIgnoreCase(name)) {
+                System.out.println("The Room is " + (x + 1));
             }
         }
 
-        System.out.println("End of Record");
 
         start();
 
@@ -218,33 +209,25 @@ public class Interface {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
-            int x=0;
-            while((line=br.readLine())!= null){
+            int x = 0;
+            while ((line = br.readLine()) != null) {
 
 
+                String[] array = line.split("\\t");
 
-                String [] array = line.split("\\t");
-                /*for(String st :array){
-                    System.out.println(st);
-                }*/
-
-                names[x]=array[1];
-                iD[x]=array[2];
+                names[x] = array[1];
+                iD[x] = array[2];
 
                 x++;
 
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             System.out.println("Data Loading Terminated");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Data Loading Terminated");
         }
         System.out.println("Data Loaded Successfully");
         start();
-
-
 
 
     }
@@ -266,14 +249,14 @@ public class Interface {
             e.printStackTrace();
         }
 
-        for  (int x =0; x<names.length; x++){
-            writer.print(x + ") \t");
+        for (int x = 0; x < names.length; x++) {
+            writer.print(x + " \t");
             writer.print(names[x]);
             writer.print("\t" + iD[x]);
             writer.println("");
         }
 
-        writer.flush();
+
         writer.close();
 
 
@@ -283,5 +266,103 @@ public class Interface {
 
 
     }
+
+
+    /**
+     * This method sorts the customer name alphabetically.
+     */
+    public void sortData() {
+
+        String [] tempArray = new String[10];
+        int [] temporary2 = new int[10];
+
+        for (int x=0; x<10 ; x++){
+            tempArray[x]=names[x];
+            temporary2[x]=x;
+        }
+
+        for (int x = 1; x < tempArray.length; x++) {
+            for (int y = 0; y < tempArray.length - x; y++) { // the improved version is (arr.length-x)
+                if (tempArray[y].compareTo(tempArray[y + 1]) > 0) {
+
+                    String temp = tempArray[y];
+                    int temp2 = temporary2[y];
+
+                    tempArray[y] = tempArray[y + 1];
+                    temporary2[y] = temporary2[y+1];
+
+                    tempArray[y + 1] = temp;
+                    temporary2[y+1]=temp2;
+                }
+
+                /*
+                Method 2: Using ASCII Codes:
+
+                if((int)names[y].charAt(0)>names[y+1].charAt(0)){
+                     String temp = names[y];
+                     names[y]=names[y+1];
+                     names[y+1]=temp;
+                }
+
+                */
+
+                /*
+                Method 3: Using ASCII Codes and Quick Sort:
+
+
+                quickSort(tempArray, 0, tempArray.length - 1);
+                System.out.println(tempArray);
+
+                public static void quickSort(String[] a, int p, int r){
+                    if(p<r)
+                    {
+                        int q=partition(a,p,r);
+                        quickSort(a,p,q);
+                        quickSort(a,q+1,r);
+                    }
+                }
+
+                private static int partition(String[] a, int p, int r) {
+
+
+                    int x = (int)a[p].charAt(0);
+                    int i = p-1 ;
+                    int j = r+1 ;
+
+                    while (true) {
+                        i++;
+                        while ( i< r && (int)a[i].charAt(0) < x)
+                            i++;
+                        j--;
+                        while (j>p && (int)a[j].charAt(0) > x)
+                            j--;
+
+                        if (i < j)
+                            swap(a, i, j);
+                        else
+                            return j;
+                    }
+                }
+
+                private static void swap(String[] a, int i, int j) {
+                    String temp = a[i];
+                    a[i] = a[j];
+                    a[j] = temp;
+                }
+
+                */
+            }
+        }
+
+        for (int x=0; x<10; x++) {
+            if (!(tempArray[x] == null || tempArray[x].equalsIgnoreCase("null"))) {
+                System.out.println(tempArray[x] + " Rents Room no " + (temporary2[x]+1));
+            }
+
+        }
+
+
+    }
+
 
 }
