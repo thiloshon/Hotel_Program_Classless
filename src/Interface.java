@@ -7,8 +7,8 @@ import java.util.Scanner;
  * Later altered as to exclude Object Oriented Concepts.
  * This Class Deals with all the Interface Inputs and Interface Outputs.
  * Methods: Run, Start, Add procedure, View procedure, Display Empty rooms, Delete customer from room, Find room from
- *          Customer name, Store program array data into a plain text file, Load program data back,
- *          from the file into the array, View rooms Ordered alphabetically by name.
+ * Customer name, Store program array data into a plain text file, Load program data back from the file into the array,
+ * View rooms Ordered alphabetically by name.
  */
 public class Interface {
 
@@ -67,7 +67,7 @@ public class Interface {
             option = sc.nextLine();
             option = option.toUpperCase();
 
-            if (!(option.equals("A")|| option.equals("V") || option.equals("E") || option.equals("D") || option.equals("F")
+            if (!(option.equals("A") || option.equals("V") || option.equals("E") || option.equals("D") || option.equals("F")
                     || option.equals("S") || option.equals("L") || option.equals("O"))) {
                 System.out.println("Please Choose Your Option Among The Letters Given Above:");
             }
@@ -150,7 +150,7 @@ public class Interface {
     }
 
     /**
-     * The method prints all the empty rooms.
+     * This method prints all the empty rooms.
      */
     public void displayEmptyRooms() {
 
@@ -174,7 +174,7 @@ public class Interface {
         System.out.println("Enter Room ID: ");
         String roomID = sc.nextLine();
 
-        names[Integer.parseInt(roomID)] = "Empty";
+        names[Integer.parseInt(roomID) - 1] = "null";
         System.out.println("Customer Deleted ");
 
         start();
@@ -205,6 +205,7 @@ public class Interface {
      */
     public void loadData() {
 
+        boolean flag = false;
         File file = new File("Data.txt");
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -222,11 +223,17 @@ public class Interface {
 
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Data Loading Terminated");
+            flag = true;
+            System.out.println("Data Loading Terminated. File Not Found");
         } catch (IOException e) {
             e.printStackTrace();
+            flag = true;
         }
-        System.out.println("Data Loaded Successfully");
+
+        if (!flag) {
+            System.out.println("Data Loaded Successfully");
+        }
+
         start();
 
 
@@ -258,8 +265,6 @@ public class Interface {
 
 
         writer.close();
-
-
         System.out.println("Data Saved Successfully");
 
         start();
@@ -273,12 +278,12 @@ public class Interface {
      */
     public void sortData() {
 
-        String [] tempArray = new String[10];
-        int [] temporary2 = new int[10];
+        String[] tempArray = new String[10];
+        int[] temporary2 = new int[10];
 
-        for (int x=0; x<10 ; x++){
-            tempArray[x]=names[x];
-            temporary2[x]=x;
+        for (int x = 0; x < 10; x++) {
+            tempArray[x] = names[x];
+            temporary2[x] = x;
         }
 
         for (int x = 1; x < tempArray.length; x++) {
@@ -289,10 +294,10 @@ public class Interface {
                     int temp2 = temporary2[y];
 
                     tempArray[y] = tempArray[y + 1];
-                    temporary2[y] = temporary2[y+1];
+                    temporary2[y] = temporary2[y + 1];
 
                     tempArray[y + 1] = temp;
-                    temporary2[y+1]=temp2;
+                    temporary2[y + 1] = temp2;
                 }
 
                 /*
@@ -354,13 +359,15 @@ public class Interface {
             }
         }
 
-        for (int x=0; x<10; x++) {
+        for (int x = 0; x < 10; x++) {
             if (!(tempArray[x] == null || tempArray[x].equalsIgnoreCase("null"))) {
-                System.out.println(tempArray[x] + " Rents Room no " + (temporary2[x]+1));
+                System.out.println(tempArray[x] + " Rents Room no " + (temporary2[x] + 1));
             }
 
         }
 
+        start();
+        start();
 
     }
 
